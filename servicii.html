@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salon Elena - Servicii</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Domine:wght@400..700&family=Onest:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="./css/animations.css">
+    <style>
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 1.5rem;
+        }
+        
+        @media (min-width: 640px) {
+            .service-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .service-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        .service-category-title {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+        }
+        
+        .service-category-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background-color: #FFD3D9;
+            border-radius: 4px;
+        }
+        
+        .service-card {
+            height: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: #292929;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .service-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .service-info {
+            padding: 1rem;
+        }
+        
+        .service-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            min-height: 3rem;
+            color: white;
+        }
+        
+        .service-price {
+            color: #FFD3D9;
+            font-weight: 500;
+        }
+
+        .epilare-list {
+            background: linear-gradient(135deg, #292929, #383838);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+            border-left: 4px solid #FFD3D9;
+        }
+
+        .epilare-header {
+            color: #FFD3D9;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid rgba(255, 211, 217, 0.3);
+        }
+
+        .epilare-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .epilare-item:last-child {
+            border-bottom: none;
+        }
+
+        .epilare-zone {
+            font-weight: 500;
+        }
+
+        .epilare-price {
+            color: #FFD3D9;
+            font-weight: 600;
+        }
+
+        .location-info {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 2px solid rgba(255, 211, 217, 0.3);
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            color: #FFD3D9;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+    <!-- Mobile Sidebar -->
+    <div id="mobileSidebar" class="fixed top-0 left-0 w-screen h-screen bg-[#212121] z-[100] transform translate-x-full transition-all duration-500 ease-in-out">
+        <div class="p-4 flex justify-between items-center">
+            <a href="index.html"><img src="./assets/Logo.png" alt="logo" class="w-8"></a>
+            <button id="closeSidebarBtn" class="text-white text-3xl font-light">&times;</button>
+        </div>
+        <div class="flex flex-col justify-center items-end h-screen align-end text-end text-white bg-[#FFD3D9] ">
+            <ul class="text-center space-y-8 onest text-6xl text-[#924B76] font-bold pr-10 pb-20">
+                <li class="sidebar-item opacity-0 transform translate-y-5 transition-all duration-300 text-end delay-100"><a href="servicii.html">Servicii</a></li>
+                <li class="sidebar-item opacity-0 transform translate-y-5 transition-all duration-300 text-end delay-200"><a href="index.html">Despre</a></li>
+                <li class="sidebar-item opacity-0 transform translate-y-5 transition-all duration-300 text-end delay-300"><a href="#footer">Contacte</a></li>
+                <li class="sidebar-item opacity-0 transform translate-y-5 transition-all duration-300 delay-400 mt-10 flex justify-end">
+                    <a href="tel:+37369990663"><button class="border text-black text-xl border-black px-6 py-3 rounded-full hover:bg-white hover:text-black transition-colors">
+                        Programare
+                    </button> </a>
+                </li>
+            </ul>
+
+            <div class="flex gap-5 pr-10">
+                <a href="https://www.facebook.com/machiaj.permanent.1?rdid=hbQcRUJ7bDLJ74PS&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1Bgzv9jHqV%2F#"><img src="./assets/facebook.png" alt="facebook"></a>
+                <a href="https://instagram.com"><img src="./assets/whatsapp.png" alt="whatsapp"></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <nav class="phone-nav flex justify-between bg-[#212121]/50 p-4 w-screen lg:hidden fixed left-0 top-0 z-50"> 
+       <a href="index.html"> <img src="./assets/Logo.png" alt="logo" class="w-8"></a>
+        <img src="./assets/List.png" alt="burger" class="w-8">
+    </nav>
+    
+    <!-- Desktop Navigation -->
+    <nav class="desktop-nav onest text-white px-10 py-5 hidden lg:flex items-center w-full justify-between fixed left-0 top-0 z-70 bg-[#212121]/50 backdrop-blur">
+        <a href="index.html"><img src="./assets/Logo.png" alt="logo" class="w-8">    </a>
+        <ul class="flex gap-10">
+            <a href="servicii.html"><li class="text-[#FFD3D9]">Servicii</li></a>
+            <a href="index.html"><li>Despre</li></a>
+            <a href="#footer"><li>Contacte</li></a>
+        </ul>
+       <a href="tel:+37369990663"> <button class="border border-white px-4 py-2 rounded-full hover:bg-white hover:text-black hover:cursor-pointer hover:transition-colors">Programare</button> </a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20 pb-16 text-white px-4 lg:px-20">
+        <!-- Page Header -->
+        <div class="relative">
+            <div class="absolute top-0 right-0 -z-1">
+                <img src="./assets/brush.png" alt="brush" class="w-full h-auto opacity-50">
+            </div>
+            <header class="text-center py-12 relative z-10">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl text-[#FFD3D9] mb-4 font-domine">Serviciile noastre</h1>
+                <p class="onest text-lg md:text-xl max-w-2xl mx-auto">Răsfață-te cu serviciile noastre pentru toate vârstele. Descoperă întreaga noastră gamă de servicii de micropigmentare și tratamente cu laser.</p>
+            </header>
+        </div>
+
+        <!-- Micropigmentation Services -->
+        <section class="mb-16 mt-8">
+            <h2 class="text-2xl lg:text-3xl text-[#FFD3D9] service-category-title mb-6">Servicii de Micropigmentare</h2>
+            
+            <div class="service-grid">
+                <!-- Service 1 -->
+                <div class="service-card">
+                    <img src="./assets/Service1.jpg" alt="Micropigmentarea Sprincenelor" class="service-image">
+                    <div class="service-info">
+                        <h3 class="service-title">Micropigmentarea Sprincenelor</h3>
+                        <p class="service-price">1500 lei</p>
+                    </div>
+                </div>
+                
+                
+                
+                <!-- Service 3 -->
+                <div class="service-card">
+                    <img src="./assets/Service3.jpg" alt="Micropigmentarea Pleoapelor" class="service-image">
+                    <div class="service-info">
+                        <h3 class="service-title">Micropigmentarea Pleoapelor</h3>
+                        <p class="service-price">1500 lei</p>
+                    </div>
+                </div>
+                
+                
+                
+                <!-- Service 5 -->
+                <div class="service-card">
+                    <img src="./assets/Service5.jpg" alt="Micropigmentarea buzelor" class="service-image">
+                    <div class="service-info">
+                        <h3 class="service-title">Micropigmentarea buzelor</h3>
+                        <p class="service-price">1500 lei</p>
+                    </div>
+                </div>
+                
+                
+            </div>
+        </section>
+        
+        <!-- Laser Treatments -->
+        <section class="mb-16">
+            <h2 class="text-2xl lg:text-3xl text-[#FFD3D9] service-category-title mb-6">Tratamente cu Laser</h2>
+            
+            <div class="service-grid">
+                <!-- Service 7 -->
+                <div class="service-card">
+                    <img src="./assets/Service7.jpg" alt="Îndepărtarea Sprincenelor cu laser" class="service-image">
+                    <div class="service-info">
+                        <h3 class="service-title">Îndepărtarea Sprincenelor cu laser</h3>
+                        <p class="service-price">500 lei</p>
+                    </div>
+                </div>
+                
+                <!-- Service 8 -->
+                <div class="service-card">
+                    <img src="./assets/Service8.jpg" alt="Carbon Peeling" class="service-image">
+                    <div class="service-info">
+                        <h3 class="service-title">Carbon Peeling</h3>
+                        <p class="service-price">500 lei</p>
+                    </div>
+                </div>
+                
+                <!-- Service 9 - Epilare Laser -->
+                <div class="service-card">
+                    <img src="./assets/Service9.png" alt="Epilare Laser" class="service-image">
+                    <div class="service-info">
+                        <h3 class="service-title">Epilare Laser</h3>
+                        <p class="service-price">100-700 lei</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Epilare cu laser dioda - Detailed Price List -->
+            <div class="mt-12 mb-8 max-w-3xl mx-auto">
+                <div class="epilare-list">
+                    <h3 class="epilare-header">Epilare cu laser dioda</h3>
+                    
+                    <div class="epilare-item">
+                        <span class="epilare-zone">Mustață</span>
+                        <span class="epilare-price">100 lei</span>
+                    </div>
+                    
+                    <div class="epilare-item">
+                        <span class="epilare-zone">Barbie</span>
+                        <span class="epilare-price">100 lei</span>
+                    </div>
+                    
+                    <div class="epilare-item">
+                        <span class="epilare-zone">Axile</span>
+                        <span class="epilare-price">250 lei</span>
+                    </div>
+                    
+                    <div class="epilare-item">
+                        <span class="epilare-zone">Minii 1/2</span>
+                        <span class="epilare-price">300 lei</span>
+                    </div>
+                    
+                    <div class="epilare-item">
+                        <span class="epilare-zone">Minii total</span>
+                        <span class="epilare-price">500 lei</span>
+                    </div>
+                    
+                    <div class="epilare-item">
+                        <span class="epilare-zone">Intim profund</span>
+                        <span class="epilare-price">500 lei</span>
+                    </div>
+                    
+                    <div class="epilare-item">
+                        <span class="epilare-zone">Gambe</span>
+                        <span class="epilare-price">400 lei</span>
+                    </div>
+                    
+                    <div class="epilare-item">
+                        <span class="epilare-zone">Coapse</span>
+                        <span class="epilare-price">400 lei</span>
+                    </div>
+                    
+                    <div class="epilare-item">
+                        <span class="epilare-zone">Picioare Total</span>
+                        <span class="epilare-price">700 lei</span>
+                    </div>
+                    
+                    <div class="location-info">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#FFD3D9]" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                        </svg>
+                        str. Chișinău, Ciocana, bulevardul Mircea cel bătrân 4/4
+                    </div>
+                    
+                    <div class="contact-info">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                        </svg>
+                        069990663 Elena
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- CTA Section -->
+        <section class="text-center py-10 relative">
+            <div class="absolute bottom-0 left-0 -z-1">
+                <img src="./assets/brush.png" alt="brush" class="w-full h-auto opacity-50 transform rotate-180">
+            </div>
+            <div class="relative z-10 bg-[#292929]/50 backdrop-blur py-10 px-4 rounded-lg max-w-3xl mx-auto">
+                <h2 class="text-3xl text-[#FFD3D9] mb-6">Programează-te acum</h2>
+                <p class="onest mb-8 max-w-xl mx-auto">Experimentează serviciile noastre de înfrumusețare și răsfață-te cu tratamentele noastre de calitate superioară.</p>
+                <a href="tel:+37369990663" class="inline-flex items-center gap-2 px-6 py-3 bg-[#FFD3D9] text-black rounded-full onest font-medium hover:bg-white transition-colors">
+                    <img src="./assets/clock.png" alt="clock" class="w-5 h-5">
+                    PROGRAMARE
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <hr>
+    <footer class="onest">
+        <div class="flex flex-col lg:flex-row justify-center lg:justify-between lg:px-20 items-center gap-5 py-10 text-white">
+            <div class="flex flex-col gap-1 items-center text-center mb-8">
+                <a href="index.html"><img src="./assets/LogoFooter.png" alt="logo" class="w-20 mb-4">     </a>
+                <p>Beauty & More</p>
+                <p class="text-[#9E9E9E]">Investeste in tine</p>
+
+                <div class="flex gap-2 mt-4 lg:gap-4">
+                    <a href="https://www.instagram.com"><img src="./assets/ig.png" alt="ig">  </a>
+                   <a href="https://www.facebook.com/machiaj.permanent.1?rdid=hbQcRUJ7bDLJ74PS&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1Bgzv9jHqV%2F#"><img src="./assets/fb.png" alt="fb">   </a>
+                </div>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-4 lg:gap-30 text-[#9E9E9E] lg:justify-start">
+                <div class="flex flex-col gap-2 text-center items-center">
+                    <p class="text-white">Contact</p>
+                    <p>069990663</p>
+                    <p>elena-salon@elena.md</p>
+                    <p>Str. Mircea cel Batrin 4/4</p>
+                </div>
+                <div class="flex flex-col gap-2 text-center items-center">
+                    <p class="text-white">Program</p>
+                    <p>L-V: 09:00 - 19:00</p>
+                    <p>S: 09:00 - 17:00</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="fixed bottom-8 right-0  px-5 z-49 lg:hidden">
+        <a href="tel:+37369990663">
+            <button class="border bg-white text-black text-xl border-black px-6 py-3 rounded-full hover:bg-white hover:text-black transition-colors">
+                Programare
+            </button>
+        </a>
+    </div>
+
+    <script src="main.js"></script>
+    <script src="animations.js"></script>
+</body>
+</html>
