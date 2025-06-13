@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salon Elena - Galerie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Domine:wght@400..700&family=Onest:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="./css/animations.css">
+    <style>
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 1.5rem;
+        }
+        
+        @media (min-width: 640px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .gallery-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        .gallery-category-title {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+        }
+        
+        .gallery-category-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background-color: #FFD3D9;
+            border-radius: 4px;
+        }
+        
+        .gallery-card {
+            height: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: #292929;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .gallery-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .gallery-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        
+        .gallery-info {
+            padding: 1rem;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+        }
+        
+        .gallery-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+        
+        .gallery-caption {
+            color: #FFD3D9;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 4px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+    <!-- Mobile Sidebar -->
+    <div id="mobileSidebar" class="fixed top-0 left-0 w-screen h-screen bg-[#212121] z-[100] transform translate-x-full transition-all duration-500 ease-in-out">
+        <div class="p-4 flex justify-between items-center">
+            <a href="index.html"><img src="./assets/Logo.png" alt="logo" class="w-8"></a>
+            <button id="closeSidebarBtn" class="text-white text-3xl font-light">&times;</button>
+        </div>
+        <div class="flex flex-col justify-center items-end h-screen align-end text-end text-white bg-[#FFD3D9] ">
+            <ul class="text-center space-y-8 onest text-6xl text-[#924B76] font-bold pr-10 pb-20">
+                <li class="sidebar-item opacity-0 transform translate-y-5 transition-all duration-300 text-end delay-100"><a href="servicii.html">Servicii</a></li>
+                <li class="sidebar-item opacity-0 transform translate-y-5 transition-all duration-300 text-end delay-200"><a href="index.html">Despre</a></li>
+                <li class="sidebar-item opacity-0 transform translate-y-5 transition-all duration-300 text-end delay-200"><a href="galerie.html">Galerie</a></li>
+                <li class="sidebar-item opacity-0 transform translate-y-5 transition-all duration-300 text-end delay-300"><a href="#footer">Contacte</a></li>
+                <li class="sidebar-item opacity-0 transform translate-y-5 transition-all duration-300 delay-400 mt-10 flex justify-end">
+                    <a href="tel:+37369990663"><button class="border text-black text-xl border-black px-6 py-3 rounded-full hover:bg-white hover:text-black transition-colors">
+                        Programare
+                    </button> </a>
+                </li>
+            </ul>
+
+            <div class="flex gap-5 pr-10">
+                <a href="https://www.facebook.com/machiaj.permanent.1?rdid=hbQcRUJ7bDLJ74PS&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1Bgzv9jHqV%2F#"><img src="./assets/facebook.png" alt="facebook"></a>
+                <a href="https://instagram.com"><img src="./assets/whatsapp.png" alt="whatsapp"></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <nav class="phone-nav flex justify-between bg-[#212121]/50 p-4 w-screen lg:hidden fixed left-0 top-0 z-50"> 
+       <a href="index.html"> <img src="./assets/Logo.png" alt="logo" class="w-8"></a>
+        <img src="./assets/List.png" alt="burger" class="w-8" id="mobileMenuBtn">
+    </nav>
+    
+    <!-- Desktop Navigation -->
+    <nav class="desktop-nav onest text-white px-10 py-5 hidden lg:flex items-center w-full justify-between fixed left-0 top-0 z-70 bg-[#212121]/50 backdrop-blur">
+        <a href="index.html"><img src="./assets/Logo.png" alt="logo" class="w-8">    </a>
+        <ul class="flex gap-10">
+            <a href="servicii.html"><li>Servicii</li></a>
+            <a href="index.html"><li>Despre</li></a>
+            <a href="galerie.html"><li class="text-[#FFD3D9]">Galerie</li></a>
+            <a href="#footer"><li>Contacte</li></a>
+        </ul>
+       <a href="tel:+37369990663"> <button class="border border-white px-4 py-2 rounded-full hover:bg-white hover:text-black hover:cursor-pointer hover:transition-colors">Programare</button> </a>
+    </nav>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <div class="lightbox-content">
+            <img id="lightbox-image" class="lightbox-image" src="" alt="Gallery image">
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="pt-20 pb-16 text-white px-4 lg:px-20">
+        <!-- Page Header -->
+        <div class="relative">
+            <div class="absolute top-0 right-0 -z-1">
+                <img src="./assets/brush.png" alt="brush" class="w-full h-auto opacity-50">
+            </div>
+            <header class="text-center py-12 relative z-10">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl text-[#FFD3D9] mb-4 font-domine">Galeria noastră</h1>
+                <p class="onest text-lg md:text-xl max-w-2xl mx-auto">Descoperă rezultatele impresionante ale serviciilor noastre de micropigmentare și tratamente cu laser prin intermediul galeriei noastre foto.</p>
+            </header>
+        </div>
+
+        <!-- Micropigmentation Gallery -->
+        <section class="mb-16 mt-8">
+            <h2 class="text-2xl lg:text-3xl text-[#FFD3D9] gallery-category-title mb-6">Galerie Micropigmentare</h2>
+            
+            <div class="gallery-grid">
+                <!-- Gallery Item 1 -->
+                <div class="gallery-card gallery-item">
+                    <img src="./assets/sprincene1.jpg" alt="Micropigmentarea Sprincenelor" class="gallery-image">
+                    <div class="gallery-info">
+                        <h3 class="gallery-title">Micropigmentarea Sprincenelor</h3>
+                        <p class="gallery-caption">Rezultat natural și definit</p>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 2 -->
+                <div class="gallery-card gallery-item">
+                    <img src="./assets/buze1.jpg" alt="Micropigmentarea Buzelor" class="gallery-image">
+                    <div class="gallery-info">
+                        <h3 class="gallery-title">Micropigmentarea Buzelor</h3>
+                        <p class="gallery-caption">Volum și culoare naturală</p>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 3 -->
+                <div class="gallery-card gallery-item">
+                    <img src="./assets/pleoape1.jpg" alt="Micropigmentarea Pleoapelor" class="gallery-image">
+                    <div class="gallery-info">
+                        <h3 class="gallery-title">Micropigmentarea Pleoapelor</h3>
+                        <p class="gallery-caption">Contur perfect</p>
+                    </div>
+                </div>
+                
+                <!-- Additional Gallery Items for Micropigmentation -->
+                <div class="gallery-card gallery-item">
+                    <img src="./assets/sprincene2.jpg" alt="Sprâncene înainte și după" class="gallery-image">
+                    <div class="gallery-info">
+                        <h3 class="gallery-title"></h3>
+                        <p class="gallery-caption">Transformarea sprâncenelor</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-card gallery-item">
+                    <img src="./assets/buze2.jpg" alt="Buzele înainte și după" class="gallery-image">
+                    <div class="gallery-info">
+                        <h3 class="gallery-title"></h3>
+                        <p class="gallery-caption">Transformarea buzelor</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-card gallery-item">
+                    <img src="./assets/pleoape2.jpg" alt="Pleoape înainte și după" class="gallery-image">
+                    <div class="gallery-info">
+                        <h3 class="gallery-title"></h3>
+                        <p class="gallery-caption">Transformarea pleoapelor</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Laser Treatments Gallery -->
+        <section class="mb-16">
+            <h2 class="text-2xl lg:text-3xl text-[#FFD3D9] gallery-category-title mb-6">Galerie Tratamente cu Laser</h2>
+            
+            <div class="gallery-grid">
+                <!-- Gallery Item 7 -->
+                <div class="gallery-card gallery-item">
+                    <img src="./assets/tatuaj1.jpg" alt="Îndepărtarea Sprincenelor cu laser" class="gallery-image">
+                    <div class="gallery-info">
+                        <h3 class="gallery-title">Îndepărtarea Sprincenelor</h3>
+                        <p class="gallery-caption">Rezultat de încredere</p>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 8 -->
+                <div class="gallery-card gallery-item">
+                    <img src="./assets/carbon1.jpg" alt="Carbon Peeling" class="gallery-image">
+                    <div class="gallery-info">
+                        <h3 class="gallery-title">Carbon Peeling</h3>
+                        <p class="gallery-caption">Piele revitalizată</p>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 9 -->
+                <div class="gallery-card gallery-item">
+                    <img src="./assets/laser1.jpg" alt="Epilare Laser" class="gallery-image">
+                    <div class="gallery-info">
+                        <h3 class="gallery-title">Epilare Laser</h3>
+                        <p class="gallery-caption">Rezultate de durată</p>
+                    </div>
+                </div>
+                
+                <!-- Additional Gallery Items for Laser Treatments -->
+                <div class="gallery-card gallery-item">
+                    <img src="./assets/tatuaj2.jpg" alt="Îndepărtare Tatuaj" class="gallery-image">
+                    <div class="gallery-info">
+                        <h3 class="gallery-title">Îndepărtare Tatuaj</h3>
+                        <p class="gallery-caption">Proces de regenerare</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-card gallery-item">
+                    <img src="./assets/carbon2.jpg" alt="Carbon Peeling Rezultate" class="gallery-image">
+                    <div class="gallery-info">
+                        <h3 class="gallery-title">Carbon Peeling</h3>
+                        <p class="gallery-caption">Înainte și după</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-card gallery-item">
+                    <img src="./assets/laser2.jpg" alt="Epilare Laser Rezultate" class="gallery-image">
+                    <div class="gallery-info">
+                        <h3 class="gallery-title">Epilare Laser</h3>
+                        <p class="gallery-caption">Înainte și după</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- CTA Section -->
+        <section class="text-center py-10 relative">
+            <div class="absolute bottom-0 left-0 -z-1">
+                <img src="./assets/brush.png" alt="brush" class="w-full h-auto opacity-50 transform rotate-180">
+            </div>
+            <div class="relative z-10 bg-[#292929]/50 backdrop-blur py-10 px-4 rounded-lg max-w-3xl mx-auto">
+                <h2 class="text-3xl text-[#FFD3D9] mb-6">Programează-te acum</h2>
+                <p class="onest mb-8 max-w-xl mx-auto">Experimentează serviciile noastre de înfrumusețare și răsfață-te cu tratamentele noastre de calitate superioară.</p>
+                <a href="tel:+37369990663" class="inline-flex items-center gap-2 px-6 py-3 bg-[#FFD3D9] text-black rounded-full onest font-medium hover:bg-white transition-colors">
+                    <img src="./assets/clock.png" alt="clock" class="w-5 h-5">
+                    PROGRAMARE
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <hr>
+    <footer id="footer" class="onest">
+        <div class="flex flex-col lg:flex-row justify-center lg:justify-between lg:px-20 items-center gap-5 py-10 text-white">
+            <div class="flex flex-col gap-1 items-center text-center mb-8">
+                <a href="index.html"><img src="./assets/LogoFooter.png" alt="logo" class="w-20 mb-4">     </a>
+                <p>Beauty & More</p>
+                <p class="text-[#9E9E9E]">Investeste in tine</p>
+
+                <div class="flex gap-2 mt-4 lg:gap-4">
+                    <a href="https://www.instagram.com"><img src="./assets/ig.png" alt="ig">  </a>
+                   <a href="https://www.facebook.com/machiaj.permanent.1?rdid=hbQcRUJ7bDLJ74PS&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1Bgzv9jHqV%2F#"><img src="./assets/fb.png" alt="fb">   </a>
+                </div>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-4 lg:gap-30 text-[#9E9E9E] lg:justify-start">
+                <div class="flex flex-col gap-2 text-center items-center">
+                    <p class="text-white">Contact</p>
+                    <p>069990663</p>
+                    <p>elena-salon@elena.md</p>
+                    <p>Str. Mircea cel Batrin 4/4</p>
+                </div>
+                <div class="flex flex-col gap-2 text-center items-center">
+                    <p class="text-white">Program</p>
+                    <p>L-V: 08:00 - 22:00</p>
+                    <p>S: 08:00 - 19:00</p>
+                    <p>D: 08:00 - 17:00</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="mx-auto py-2 w-screen">
+        <p class="text-white text-center text-sm onest">Made with ❤️ by <a class="underline" href="https://landings.md/" target="_blank">Landings.md</a></p>
+    </div>
+    <script src="main.js"></script>
+    <script src="animations.js"></script>
+    <script>
+        // Lightbox functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImage = document.getElementById('lightbox-image');
+            const lightboxClose = document.querySelector('.lightbox-close');
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+            const mobileSidebar = document.getElementById('mobileSidebar');
+            
+            // Gallery lightbox
+            galleryItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const imgSrc = item.querySelector('img').src;
+                    const imgAlt = item.querySelector('img').alt;
+                    lightboxImage.src = imgSrc;
+                    lightboxImage.alt = imgAlt;
+                    lightbox.style.display = 'flex';
+                });
+            });
+            
+            lightboxClose.addEventListener('click', () => {
+                lightbox.style.display = 'none';
+            });
+            
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    lightbox.style.display = 'none';
+                }
+            });
+            
+            // Mobile sidebar
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileSidebar.classList.remove('translate-x-full');
+                
+                // Animate sidebar items
+                setTimeout(() => {
+                    const sidebarItems = document.querySelectorAll('.sidebar-item');
+                    sidebarItems.forEach(item => {
+                        item.classList.remove('opacity-0', 'translate-y-5');
+                    });
+                }, 300);
+            });
+            
+            closeSidebarBtn.addEventListener('click', () => {
+                const sidebarItems = document.querySelectorAll('.sidebar-item');
+                sidebarItems.forEach(item => {
+                    item.classList.add('opacity-0', 'translate-y-5');
+                });
+                
+                setTimeout(() => {
+                    mobileSidebar.classList.add('translate-x-full');
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>
